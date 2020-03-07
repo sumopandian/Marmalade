@@ -1,0 +1,1 @@
+scons -j8 platform=windows vsproj=yes
