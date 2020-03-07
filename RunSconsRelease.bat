@@ -1,0 +1,1 @@
+scons -j8 platform=windows tools=yes target=release_debug

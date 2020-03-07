@@ -1,0 +1,1 @@
+START %~dp0\EditorStable\MarmaladeEditor.exe GameMain/project.godot
