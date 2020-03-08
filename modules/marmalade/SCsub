@@ -7,3 +7,4 @@ env_marmalade = env_modules.Clone()
 
 # Godot's own source files
 env_marmalade.add_source_files(env.modules_sources, "*.cpp")
+env_marmalade.add_source_files(env.modules_sources, "events\*.cpp")
