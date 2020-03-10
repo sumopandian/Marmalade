@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 40.9201, 42.7768 )
+
+[node name="PlayEvent" type="PlayEvent"]
+
+[node name="AreaEventTrigger" type="AreaEventTrigger" parent="."]
+area_trigger = NodePath("../Area2D")
+
+[node name="WorldDialogueAction" type="WorldDialogueAction" parent="."]
+world_dialogue = "Something Happened Here"
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 1 )

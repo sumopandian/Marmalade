@@ -9,7 +9,7 @@ class PlayEventTrigger;
 class PlayEventGroup
 {
 public:
-	PlayEventGroup();
+	PlayEventGroup() {};
 	//[TODO] Everything here is a raw pointer make sure properly handle and check how the lifecycle is managed for each
 
 public:
@@ -28,18 +28,24 @@ class PlayEventSystem
 public:
 
 	PlayEventSystem();
+	virtual ~PlayEventSystem();
 
-	void InitFromTree(SceneTree* Tree);
+	//returns the event Id is succeeded or returns -1 if failed
+	int		AddEvent(PlayEvent* event);
+	void	RemoveEvent(int eventId);
+	
 	void Clear();
-
 	void ProcessEvents();
 
-	const PlayEventSystem& GetInstance()
+	static PlayEventSystem& GetInstance()
 	{
 		static PlayEventSystem Instance;
 		return Instance;
 	}
 
 private:
+
+	PlayEventGroup ExtractEventGroup(PlayEvent* event);
+
 	Vector<PlayEventGroup>	m_EventGroups;
 };

@@ -1,22 +1,37 @@
 #include "PlayEvent.h"
 #include "PlayEventTrigger.h"
 #include "PlayEventAction.h"
+#include "PlayEventSystem.h"
 
 void PlayEvent::_notification(int p_what)
 {
 	switch (p_what)
 	{
+		case NOTIFICATION_ENTER_TREE:
+		{
+			print_line("NOTIFICATION_ENTER_TREE");
+			m_eventID = PlayEventSystem::GetInstance().AddEvent(this);
+		}break;
+		case NOTIFICATION_EXIT_TREE:
+		{
+			print_line("NOTIFICATION_EXIT_TREE");
+			if (m_eventID != -1)
+			{
+				PlayEventSystem::GetInstance().RemoveEvent(m_eventID);
+			}
+		}break;
+
 		case NOTIFICATION_UNPARENTED:
 		{
-
+			print_line("NOTIFICATION_UNPARENTED");
 		}break;
 		case NOTIFICATION_READY:
 		{
-
+			print_line("NOTIFICATION_READY");
 		}break;
 		case NOTIFICATION_PARENTED:
 		{
-
+			print_line("NOTIFICATION_PARENTED");
 		}break;
 	}
 	

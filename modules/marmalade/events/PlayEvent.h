@@ -12,4 +12,9 @@ protected:
 
 public:
 	virtual String get_configuration_warning() const;
+
+	int GetEventID() const { return m_eventID; }
+
+private:
+	int	m_eventID;
 };
