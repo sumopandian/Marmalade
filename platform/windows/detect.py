@@ -363,7 +363,7 @@ def configure(env):
     # At this point the env has been set up with basic tools/compilers.
     env.Prepend(CPPPATH=['#platform/windows'])
 
-    print("Configuring for Windows: target=%s, bits=%s" % (env['target'], env['bits']))
+    print("Configuring for Windows: target=%s, bits=%s, tools=%s" % (env['target'], env['bits'], env['tools']))
 
     if (os.name == "nt"):
         env['ENV'] = os.environ # this makes build less repeatable, but simplifies some things

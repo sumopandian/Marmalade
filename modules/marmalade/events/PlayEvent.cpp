@@ -2,6 +2,7 @@
 #include "PlayEventTrigger.h"
 #include "PlayEventAction.h"
 #include "PlayEventSystem.h"
+#include "modules/marmalade/core/debug.h"
 
 void PlayEvent::_notification(int p_what)
 {
@@ -9,12 +10,12 @@ void PlayEvent::_notification(int p_what)
 	{
 		case NOTIFICATION_ENTER_TREE:
 		{
-			print_line("NOTIFICATION_ENTER_TREE");
+			debug_print(LogLevel::Verbose , "Event: NOTIFICATION_ENTER_TREE");
 			m_eventID = PlayEventSystem::GetInstance().AddEvent(this);
 		}break;
 		case NOTIFICATION_EXIT_TREE:
 		{
-			print_line("NOTIFICATION_EXIT_TREE");
+			debug_print(LogLevel::Verbose ,"Event: NOTIFICATION_EXIT_TREE");
 			if (m_eventID != -1)
 			{
 				PlayEventSystem::GetInstance().RemoveEvent(m_eventID);
@@ -23,18 +24,17 @@ void PlayEvent::_notification(int p_what)
 
 		case NOTIFICATION_UNPARENTED:
 		{
-			print_line("NOTIFICATION_UNPARENTED");
+			debug_print(LogLevel::Verbose ,"Event: NOTIFICATION_UNPARENTED");
 		}break;
 		case NOTIFICATION_READY:
 		{
-			print_line("NOTIFICATION_READY");
+			debug_print(LogLevel::Verbose ,"Event: NOTIFICATION_READY");
 		}break;
 		case NOTIFICATION_PARENTED:
 		{
-			print_line("NOTIFICATION_PARENTED");
+			debug_print(LogLevel::Verbose ,"Event: NOTIFICATION_PARENTED");
 		}break;
-	}
-	
+	}	
 }
 
 String PlayEvent::get_configuration_warning() const

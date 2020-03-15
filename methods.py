@@ -530,7 +530,9 @@ def generate_vs_project(env, num_jobs):
             common_build_prefix = ['cmd /V /C set "plat=$(PlatformTarget)"',
                                     '(if "$(PlatformTarget)"=="x64" (set "plat=x86_amd64"))',
                                     'set "tools=yes"',
+                                    'set "ActualConfig=$(Configuration)"',
                                     '(if "$(Configuration)"=="release" (set "tools=no"))',
+                                    '(if "$(Configuration)"=="debug_notools" (set "tools=no" ^& set "ActualConfig=debug"))',
                                     'call "' + batch_file + '" !plat!']
 
             result = " ^& ".join(common_build_prefix + [commands])
@@ -547,21 +549,23 @@ def generate_vs_project(env, num_jobs):
         # to double quote off the directory. However, the path ends
         # in a backslash, so we need to remove this, lest it escape the
         # last double quote off, confusing MSBuild
-        env['MSVSBUILDCOM'] = build_commandline('scons --directory="$(ProjectDir.TrimEnd(\'\\\'))" platform=windows progress=no target=$(Configuration) tools=!tools! -j' + str(num_jobs))
-        env['MSVSREBUILDCOM'] = build_commandline('scons --directory="$(ProjectDir.TrimEnd(\'\\\'))" platform=windows progress=no target=$(Configuration) tools=!tools! vsproj=yes -j' + str(num_jobs))
-        env['MSVSCLEANCOM'] = build_commandline('scons --directory="$(ProjectDir.TrimEnd(\'\\\'))" --clean platform=windows progress=no target=$(Configuration) tools=!tools! -j' + str(num_jobs))
+        env['MSVSBUILDCOM'] = build_commandline('scons --directory="$(ProjectDir.TrimEnd(\'\\\'))" platform=windows progress=no target=!ActualConfig! tools=!tools! -j' + str(num_jobs))
+        env['MSVSREBUILDCOM'] = build_commandline('scons --directory="$(ProjectDir.TrimEnd(\'\\\'))" platform=windows progress=no target=!ActualConfig! tools=!tools! vsproj=yes -j' + str(num_jobs))
+        env['MSVSCLEANCOM'] = build_commandline('scons --directory="$(ProjectDir.TrimEnd(\'\\\'))" --clean platform=windows progress=no target=!ActualConfig! tools=!tools! -j' + str(num_jobs))
 
         # This version information (Win32, x64, Debug, Release, Release_Debug seems to be
         # required for Visual Studio to understand that it needs to generate an NMAKE
         # project. Do not modify without knowing what you are doing.
         debug_variants = ['debug|Win32'] + ['debug|x64']
+        debug_notools_variants = ['debug_notools|Win32'] + ['debug_notools|x64']
         release_variants = ['release|Win32'] + ['release|x64']
         release_debug_variants = ['release_debug|Win32'] + ['release_debug|x64']
-        variants = debug_variants + release_variants + release_debug_variants
+        variants = debug_variants + debug_notools_variants + release_variants + release_debug_variants        
         debug_targets = ['bin\\godot.windows.tools.32.exe'] + ['bin\\godot.windows.tools.64.exe']
+        debug_notools_targets = ['bin\\godot.windows.debug.32.exe'] + ['bin\\godot.windows.debug.64.exe']
         release_targets = ['bin\\godot.windows.opt.32.exe'] + ['bin\\godot.windows.opt.64.exe']
         release_debug_targets = ['bin\\godot.windows.opt.tools.32.exe'] + ['bin\\godot.windows.opt.tools.64.exe']
-        targets = debug_targets + release_targets + release_debug_targets
+        targets = debug_targets + debug_notools_targets + release_targets + release_debug_targets
         if not env.get('MSVS'):
             env['MSVS']['PROJECTSUFFIX'] = '.vcxproj'
             env['MSVS']['SOLUTIONSUFFIX'] = '.sln'

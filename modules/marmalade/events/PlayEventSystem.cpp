@@ -4,6 +4,7 @@
 #include "PlayEventAction.h"
 #include "PlayEventTrigger.h"
 #include "core/object.h"
+#include "modules/marmalade/core/debug.h"
 
 PlayEventSystem::PlayEventSystem()
 {
@@ -19,7 +20,7 @@ int		PlayEventSystem::AddEvent(PlayEvent* event)
 {
 	if (!event)
 	{
-		print_error("The supplied Add event is null");
+		debug_print(LogLevel::Error ,"The supplied Add event is null");
 	}
 	m_EventGroups.push_back(ExtractEventGroup(event));
 

@@ -1,6 +1,7 @@
 #include "AreaEventTrigger.h"
 #include "scene/2d/area_2d.h"
 #include "scene/scene_string_names.h"
+#include "modules/marmalade/core/debug.h"
 
 bool AreaEventTrigger::CheckTriggerCondition()
 {
@@ -26,7 +27,7 @@ void AreaEventTrigger::_notification(int p_what)
 			Area2D* area2D = cast_to<Area2D>(get_node(m_Area2DPath));
 			if (area2D)
 			{
-				print_line("Properly assigned area node");
+				debug_print( LogLevel::Verbose, "Properly assigned area node");
 				area2D->connect(SceneStringNames::get_singleton()->body_shape_entered, this, "_body_shape_entered");
 				area2D->connect(SceneStringNames::get_singleton()->body_shape_exited, this, "_body_shape_exited");
 			}
@@ -49,11 +50,11 @@ void AreaEventTrigger::_bind_methods()
 void AreaEventTrigger::_body_shape_entered(ObjectID body_id, Node* body, int body_shape, int area_shape)
 {
 	m_IsOverlapping = true;
-	print_line("Overlap Begin");
+	debug_print( LogLevel::Verbose ,"Overlap Begin");
 }
 
 void AreaEventTrigger::_body_shape_exited(ObjectID body_id, Node* body, int body_shape, int area_shape)
 {
 	m_IsOverlapping = false;
-	print_line("Overlap End");
+	debug_print(LogLevel::Verbose ,"Overlap End");
 }

@@ -1,4 +1,5 @@
 #include "WorldDialogueAction.h"
+#include "modules/marmalade/core/debug.h"
 
 WorldDialogueAction::WorldDialogueAction()
 	: PlayEventAction()
@@ -9,7 +10,7 @@ WorldDialogueAction::WorldDialogueAction()
 void WorldDialogueAction::ExecuteAction()
 {
 	PlayEventAction::ExecuteAction();
-	print_line("Action:" + m_Dialogue);
+	debug_print( LogLevel::Log ,"Action:" + m_Dialogue);
 }
 
 void WorldDialogueAction::Reset()

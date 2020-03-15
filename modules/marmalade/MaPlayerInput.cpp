@@ -1,6 +1,7 @@
 #include "MaPlayerInput.h"
 #include "core/input_map.h"
 #include "core/os/keyboard.h"
+#include "modules/marmalade/core/debug.h"
 
 MaInputState MaInputState::Empty;
 
@@ -34,8 +35,8 @@ void MaPlayerInput::OnInputEvent(const Ref<InputEvent>& inputEvent)
 					
 					state.m_pressed		= pressed;
 					state.m_strength	= strength;
-					//Keeping debug lines commented until I find a way to have proper debug flags and console commands
-					//print_line("Action processed:" + action + " , pressed:" + ( (pressed)?"true":"false") + ", strength:" + rtos(strength));
+					
+					debug_print(LogLevel::Verbose ,"Action processed:" + action + " , pressed:" + ( (pressed)?"true":"false") + ", strength:" + rtos(strength));
 				}
 			}
 		}
